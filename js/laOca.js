@@ -1,12 +1,15 @@
+/*Guía JS v1.5 en castellano https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Obsolete_Pages/Gu%C3%ADa_JavaScript_1.5*/
 
-function LaOca(tablero, coleccionFichas,numeroJugadores){
+/*funcion constructora para crear objeto LaOca https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Obsolete_Pages/Gu%C3%ADa_JavaScript_1.5/Crear_nuevos_objetos/Usando_una_funci%C3%B3n_constructora*/
+function LaOca(tablero, coleccionFichas, numeroJugadores){
 	this.tablero = tablero;
 	this.coleccionFichas=coleccionFichas;
 	this.coleccionJugadores=[];
 	this.turno=undefined;
 	this.fase=undefined;
 	this.numeroJugadores=numeroJugadores;
-
+    
+    /*definicion metodo asignarFicha de objeto LaOca https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Obsolete_Pages/Gu%C3%ADa_JavaScript_1.5/Crear_nuevos_objetos/Definiendo_los_m%C3%A9todos*/
 	this.asignarFicha=function(jugador){
 		var enc=false;
 		for(f in this.coleccionFichas){
@@ -24,60 +27,86 @@ function LaOca(tablero, coleccionFichas,numeroJugadores){
 			console.log("Ya no quedan fichas libres");
 		}
 	};
+    
+    /*definicion metodo de objeto LaOca*/
 	this.setTurno=function(jugador){
 		this.turno=jugador;
 		jugador.turno=new MeToca();
 	}
+    
+    /*definicion metodo de objeto LaOca*/
 	this.cambiarTurno=function(jugador){
 		var indice=this.coleccionJugadores.indexOf(jugador);
 		var siguienteIndice=(indice+1)%(this.coleccionJugadores.length);
 		this.setTurno(this.coleccionJugadores[siguienteIndice]);
 		jugador.turno=new NoMeToca();
 	}
+    
+    /*definicion metodo de objeto LaOca*/
 	this.iniciarJuego=function(){
-		this.fase=new FaseInicio(this);
+		this.fase=new FaseInicio(this); //crea objeto FaseIncio usando funcion constructora y se lo asigna a inicio
 	}
 
-	this.iniciarJuego();
+    /*this=objeto actual https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Obsolete_Pages/Gu%C3%ADa_JavaScript_1.5/Crear_nuevos_objetos/Usando_this_para_referirse_al_objeto*/
+	this.iniciarJuego(); //ejecuta funcion método iniciarJuego de objeto actual (cuando se llama a function LaOca usando new)
 }
 
+
+/*funcion constructora para crear objeto*/
 function FaseInicio(juego){
 	this.juego=juego;
+    
+    /*definicion metodo de objeto*/
 	this.asignarFicha=function(jugador){
 		this.juego.asignarFicha(jugador);
 		if (this.juego.coleccionJugadores.length==this.juego.numeroJugadores){
 			this.juego.fase=new FaseJugar(this.juego);
 		}
 	}
+    
+    /*definicion metodo de objeto*/
 	this.lanzar=function(jugador){
 		console.log("Todavía no puedes lanzar los dados");
 	}
 }
 
+
+/*funcion constructora para crear objeto*/
 function FaseJugar(juego){
-	this.juego=juego;
-		this.asignarFicha=function(jugador){
+    
+	this.juego=juego; //atributo de objeto
+    
+    /*definicion metodo de objeto*/
+    this.asignarFicha=function(jugador){
 			console.log("Ahora no se puede escoger ficha");
 	}
-
+    
+    /*definicion metodo de objeto*/
 	this.lanzar=function(jugador){
 		jugador.turno.lanzar(jugador);		
 	}
 }
 
+
+/*funcion constructora para crear objeto*/
 function Tablero(){
+    
 	this.casillas=[];
+    
+    /*definicion metodo de objeto*/
 	this.iniciarTablero=function(){
 		this.casillas[0]="El Juego de la Oca";
 		for(i=1;i<=63;i++){
 			this.casillas[i]=new Casilla(i,this);
 		}
 	};
-
+    
+    /*definicion metodo de objeto*/
 	this.asignarCasilla=function(posicion,tema){
 		this.casillas[posicion].tema=tema;
 	}
 
+    /*definicion metodo de objeto*/
 	this.configurarTablero=function(){
 		this.asignarCasilla(6, new Puente(12));
 		this.asignarCasilla(12,new Puente(6));
@@ -102,10 +131,12 @@ function Tablero(){
 		this.asignarCasilla(59, new Oca(63));							
 	}
 
+    /*definicion metodo de objeto*/
 	this.moverSinCaer=function(ficha,posicion){
 		ficha.nuevaCasilla(this.casillas[posicion]);
 	}
 
+    /*definicion metodo de objeto*/
 	this.desplazar=function(ficha,posicion){
 		var nuevaPosicion=ficha.getPosicion()+posicion;
 		if (nuevaPosicion > 63){
@@ -114,18 +145,25 @@ function Tablero(){
 		return nuevaPosicion;
 	}
 
+    /*definicion metodo de objeto*/
 	this.mover=function(ficha,posicion){
 		var nuevaPosicion = this.desplazar(ficha,posicion);
 		ficha.cae(this.casillas[nuevaPosicion]);
 	}
+    
+    //ejecución de métodos de objeto actual
 	this.iniciarTablero();
 	this.configurarTablero();
 }
 
+
+/*funcion constructora para crear objeto*/
 function Casilla(posicion, tablero){
 	this.posicion=posicion;
 	this.tema=new Normal();
 	this.tablero=tablero;
+    
+    /*definicion de metodos de objeto*/
 	this.moverSinCaer=function(ficha,posicion){
 		this.tablero.moverSinCaer(ficha,posicion);
 	}
@@ -137,17 +175,25 @@ function Casilla(posicion, tablero){
 	}
 }
 
+
+/*funcion constructora para crear objeto*/
 function Normal(){
 	this.titulo="Normal";
+    
+    /*definicion de metodos de objeto*/
 	this.cae=function(ficha){
 		console.log("Casilla normal");
 		ficha.cambiarTurno();
 	}
 }
 
+
+/*funcion constructora para crear objeto*/
 function Puente(otroPuente){
 	this.titulo="Puente";
 	this.otroPuente=otroPuente;
+    
+    /*definicion de metodos de objeto*/
 	this.cae=function(ficha){
 		//mover la ficha al otro puente y decirle que tire de nuevo
 		console.log("De puente a puente y tiro porque me lleva la corriente");
@@ -155,25 +201,37 @@ function Puente(otroPuente){
 	}
 }
 
+
+/*funcion constructora para crear objeto*/
 function Oca(otraOca){
 	this.titulo="Oca";
 	this.otraOca=otraOca;
+    
+    /*definicion de metodos de objeto*/
 	this.cae=function(ficha){
 		console.log("De Oca a Oca y tiro porque me toca");
 		ficha.moverSinCaer(this.otraOca);
 	}
 }
 
+
+/*funcion constructora para crear objeto*/
 function Posada(){
 	this.titulo="Posada";
+    
+    /*definicion de metodos de objeto*/
 	this.cae=function(ficha){
 		console.log("Caíste en la Posada");
 	}
 }
 
+
+/*funcion constructora para crear objeto*/
 function Dados(otrosDados){
 	this.titulo="Dados";
 	this.otrosDados=otrosDados;
+    
+    /*definicion de metodos de objeto*/
 	this.cae=function(ficha){
 		//mover la ficha al otro puente y decirle que tire de nuevo
 		console.log("De dado a dado y tiro porque me ha tocado");
@@ -181,32 +239,49 @@ function Dados(otrosDados){
 	}
 }
 
+
+/*funcion constructora para crear objeto*/
 function Laberinto(){
 	this.titulo="Laberinto";
+    
+    /*definicion de metodos de objeto*/
 	this.cae=function(ficha){
 		console.log("Caíste en el Laberinto");
 	}
 }
 
+
+/*funcion constructora para crear objeto*/
 function Carcel(){
 	this.titulo="Carcel";
+    
+    /*definicion de metodos de objeto*/
 	this.cae=function(ficha){
 		console.log("Caíste en la Cárcel");
 	}
 }
 
+
+/*funcion constructora para crear objeto*/
 function Calavera(){
 	this.titulo="Calavera";
+    
+    /*definicion de metodos de objeto*/
 	this.cae=function(ficha){
 		console.log("Caíste en la Calavera");
 	}
 }
 
+
+
+/*funcion constructora para crear objeto*/
 function Ficha(color){
 	this.color=color;
 	this.libre=true;
 	this.casilla=undefined;
 	this.jugador=undefined;
+    
+    /*definicion de metodos de objeto*/
 	this.asignarJugador=function(jugador){
 		this.jugador=jugador;
 	}
@@ -232,7 +307,11 @@ function Ficha(color){
 	}
 }
 
+
+/*funcion constructora para crear objeto*/
 function MeToca(){
+    
+    /*definicion de metodos de objeto*/
 	this.lanzar=function(jugador){
 		var numero=Math.round(Math.random()*5+1);
 		console.log("Tirada: "+numero);
@@ -240,18 +319,25 @@ function MeToca(){
 	}
 }
 
+
+/*funcion constructora para crear objeto*/
 function NoMeToca(){
+    
+    /*definicion de metodos de objeto*/
 	this.lanzar=function(jugador){
 		console.log("No es tu turno");
 	}
 }
 
+
+/*funcion constructora para crear objeto*/
 function Jugador(nombre,juego){
 	this.nombre=nombre;
 	this.ficha=undefined;
 	this.juego=juego;
 	this.turno=new NoMeToca();
-
+    
+    /*definicion de metodos de objeto*/
 	this.asignarFicha=function(){
 		this.juego.fase.asignarFicha(this);
 	}
