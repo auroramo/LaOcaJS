@@ -157,6 +157,7 @@ function Tablero(){
 }
 
 
+
 /*funcion constructora para crear objeto*/
 function Casilla(posicion, tablero){
 	this.posicion=posicion;
@@ -174,6 +175,8 @@ function Casilla(posicion, tablero){
 		this.tema.cae(ficha);
 	}
 }
+
+/*Posible Usar HERENCIA https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Obsolete_Pages/Gu%C3%ADa_JavaScript_1.5/El_ejemplo_Employee/Creando_la_jerarqu%C3%ADa */
 
 
 /*funcion constructora para crear objeto*/
@@ -274,6 +277,8 @@ function Calavera(){
 
 
 
+
+
 /*funcion constructora para crear objeto*/
 function Ficha(color){
 	this.color=color;
@@ -307,6 +312,7 @@ function Ficha(color){
 	}
 }
 
+//State http://www.dofactory.com/javascript/state-design-pattern
 
 /*funcion constructora para crear objeto*/
 function MeToca(){
